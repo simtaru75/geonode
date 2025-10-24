@@ -1717,7 +1717,7 @@ BROKER_TRANSPORT_OPTIONS = {
 CELERY_LOADER = os.environ.get("CELERY_LOADER", "geonode.loaders.GeoNodeCeleryTaksLoader")
 
 ASYNC_SIGNALS = ast.literal_eval(os.environ.get("ASYNC_SIGNALS", "False"))
-REDIS_SIGNALS_BROKER_URL = os.environ.get("BROKER_URL", "redis://localhost:6379/0")
+REDIS_SIGNALS_BROKER_URL = os.environ.get("CELERY_BROKER_URL", "redis://localhost:6379/0")
 LOCAL_SIGNALS_BROKER_URL = "memory://"
 
 # In testing, it should not be used Redis as Celery backend
@@ -1732,7 +1732,7 @@ if TESTING:
     CELERY_TASK_EAGER_PROPAGATES = True
 else:
     _BROKER_URL = REDIS_SIGNALS_BROKER_URL if ASYNC_SIGNALS else LOCAL_SIGNALS_BROKER_URL
-    CELERY_BROKER_URL = os.environ.get("BROKER_URL", _BROKER_URL)
+    CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL", _BROKER_URL)
     CELERY_RESULT_BACKEND = os.environ.get("CELERY_RESULT_BACKEND", "redis://localhost:6379/1")
 CELERY_RESULT_PERSISTENT = ast.literal_eval(os.environ.get("CELERY_RESULT_PERSISTENT", "False"))
 CELERY_IGNORE_RESULT = ast.literal_eval(os.environ.get("CELERY_IGNORE_RESULT", "False"))
